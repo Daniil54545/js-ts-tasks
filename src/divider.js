@@ -3,8 +3,10 @@
  * Return a string formatted "wholePart remainder"
  * @param {number} n - number
  * @param {number} k - number
- * @returns {number}
+ * @returns {string} - formatted as "wholePart remainder"
  */
 module.exports.divider = function divider(n, k) {
-  throw new Error('Not implemented');
+  const wholePart = Math.floor(n / k);  
+  const remainder = n % k;              
+  return `${wholePart} ${remainder}`; 
 };
