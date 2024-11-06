@@ -1,8 +1,12 @@
 /**
  * Given number n (-1000000 <= n <= 1000000). Create a function that counts sum of all digits
- * @param {number} n - number
- * @returns {number}
+ * @param {number} n - the input number
+ * @returns {number} - sum of all digits
  */
 module.exports.digitsSum = function digitsSum(n) {
-  throw new Error('Not implemented'); // remove this line
+  return Math.abs(n)               
+      .toString()                  
+      .split('')                   
+      .map(Number)                 
+      .reduce((a, b) => a + b, 0); 
 };
