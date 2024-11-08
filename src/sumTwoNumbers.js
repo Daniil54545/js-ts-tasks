@@ -5,8 +5,14 @@
  * @returns {number} - The sum of the two numbers
  */
 module.exports.sumTwoNumbers = function sumTwoNumbers(firstNumber, secondNumber) {
-  function sumTwoNumbers(a, b) {
-    return a + b;
-  }
-  alert(sumTwoNumbers(10, 4874224));
+    let number1 = firstNumber;
+    let number2 = secondNumber;
+  
+    if (typeof firstNumber === 'string') {
+      number1 = firstNumber.replace(/\s/g, '');
+    }
+    if (typeof secondNumber === 'string') {
+      number2 = secondNumber.replace(/\s/g, '');
+    }
+    return +number1 + +number2;
 };
