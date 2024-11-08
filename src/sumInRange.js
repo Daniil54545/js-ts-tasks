@@ -5,17 +5,12 @@
  * @returns {number} - sum of numbers in the range
  */
 module.exports.sumInRange = function sumInRange(start, end) {
-  start = Number(start);
-  end = Number(end);
- 
-  if (isNaN(start) || isNaN(end) || start > end) {
-    throw new Error('Invalid input');
-  }
-  let sum = 0;
-  for (let i = start; i <= end; i++) {
-    sum += i;
-  }
-return sum;
+  {
+    let sum = 0;
+    let [first, last] = [Math.min(start, end), Math.max(start, end)];
+    for (let i = first; i <= last; i++) {
+      sum += i;
+    }
+    return sum;
+  };
 };
-
-console.log(module.exports.sumInRange(1, 5));
