@@ -5,16 +5,11 @@
  * @returns {string} - The modified string
  */
 module.exports.backToFront = function backToFront(str, symbolsCount) {
-  function copyAndPasteSymbols(str, num) {
-    if (num > str.length) {
-      return 'The number of symbols to copy exceeds the length of the string.';
+    let substring;
+      if (symbolsCount < str.length + 1) {
+        substring = str.slice(-symbolsCount);
+      } else {
+        substring = '';
+      }
+      return substring + str + substring;
     }
-    let part = str.slice(0, num);
-    return part + str + part;
-  }
-  
-  let originalString = 'hello';
-  let numSymbols = 2;
-  alert(copyAndPasteSymbols(originalString, numSymbols));
-
-}
