@@ -1,3 +1,4 @@
+
 /**
  * Write a function which returns a function to replace forbidden words in string by * symbols
  * Array 'forbidden' is specifying the words you have to detect and replace by *
@@ -14,5 +15,16 @@
  * @returns {function}
  */
 module.exports.censorship = function censorship(forbidden) {
-  throw new Error('Not implemented'); // remove me and write a solution
-};
+ return function (str) {
+    // Escape special characters in forbidden words for regex
+    const escapedWords = forbidden.map(word =>
+      word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+    );
+
+    // Create a regex to match any forbidden word (even inside other words)
+    const forbiddenRegex = new RegExp(escapedWords.join('|'), 'gi');
+
+    // Replace forbidden words in the string
+    return str.replace(forbiddenRegex, match => '*'.repeat(match.length));
+  };
+}
