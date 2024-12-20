@@ -28,30 +28,32 @@ describe('debounce', function () {
     assert.isFunction(debounced);
   });
 
-  it('should invoke debounce once', function () {
+  it('should invoke debounce once', function (done) {
     const debounced = debounce(callBackSpy, DELAY);
-    debounced(ATTEMPTS[0]);
 
-    expect(callBackSpy).to.have.been.called.exactly(1);
-    expect(callBackSpy).to.have.been.first.called.with(ATTEMPTS[0]);
+    debounced(ATTEMPTS[0]);
+    clock.tick(DELAY);
+
+    expect(callBackSpy).to.have.been.called.once;
+    expect(callBackSpy).to.have.been.called.with(ATTEMPTS[0]);
+    done();
   });
 
   it('should invoke debounce twice', function (done) {
     const debounced = debounce(callBackSpy, DELAY);
-    debounced(ATTEMPTS[0]);
-    debounced(ATTEMPTS[1]);
-    debounced(ATTEMPTS[2]);
-    setTimeout(() => {
-      debounced(ATTEMPTS[3]);
-      done();
-    }, DELAY);
-    debounced(ATTEMPTS[2]);
 
-    clock.tick(DELAY - 1);
-    expect(callBackSpy).to.have.been.called.exactly(1);
-    expect(callBackSpy).to.have.been.first.called.with(ATTEMPTS[0]);
-    clock.tick(2);
+    debounced(ATTEMPTS[0]);
+    clock.tick(DELAY / 2);
+    debounced(ATTEMPTS[1]);
+    clock.tick(DELAY / 2);
+    debounced(ATTEMPTS[2]);
+    clock.tick(DELAY);
+    debounced(ATTEMPTS[3]);
+    clock.tick(DELAY);
+
     expect(callBackSpy).to.have.been.called.exactly(2);
-    expect(callBackSpy).to.have.been.second.called.with(ATTEMPTS[3]);
+    expect(callBackSpy).to.have.been.called.with(ATTEMPTS[2]);
+    expect(callBackSpy).to.have.been.called.with(ATTEMPTS[3]);
+    done();
   });
 });

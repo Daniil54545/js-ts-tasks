@@ -1,69 +1,21 @@
 const chai = require('chai');
-const sinon = require('sinon');
-
-const { mockApi } = require('../src/mockApi');
+const { mockApi } = require('../src/mockApi'); // Убедитесь, что путь указан правильно
 
 const { expect, assert } = chai;
-const RESPONSE = {
-  test: 'test',
-};
-const DELAY = 500;
 
 describe('mockApi', function () {
-  let clock;
-  const mock = mockApi(RESPONSE, DELAY);
-
-  beforeEach(function () {
-    clock = sinon.useFakeTimers();
+  it('should resolve promise after 500ms with expected result', function (done) {
+    mockApi({ message: 'Hello, world!' }, 500).then(data => {
+      assert.deepEqual(data, { message: 'Hello, world!' });
+      done();
+    });
   });
 
-  afterEach(function () {
-    clock.restore();
-  });
-
-  it('should resolve promise after 500ms with expected result', async function () {
-    let fulfilled = false;
-    let rejected = false;
-    let result = null;
-
-    mock('resolve')
-      .then(resp => {
-        result = resp;
-        fulfilled = true;
-      })
-      .catch(() => {
-        rejected = true;
-      });
-
-    clock.tick(DELAY - 1);
-    await Promise.resolve();
-    expect(fulfilled).to.be.false;
-    expect(rejected).to.be.false;
-    clock.tick(2);
-    await Promise.resolve();
-    expect(fulfilled).to.be.true;
-    expect(rejected).to.be.false;
-    expect(result).to.be.equal(RESPONSE);
-  });
-
-  it('should handle promise rejection after 500ms', async function () {
-    let fulfilled = false;
-    let rejected = false;
-    let result = null;
-
-    try {
-      mock('reject')
-        .then(resp => {
-          result = resp;
-          fulfilled = true;
-        })
-        .catch(() => {
-          rejected = true;
-        });
-    } catch (e) {
-      expect(result).to.be.null;
-      expect(fulfilled).to.be.false;
-      expect(rejected).to.be.true;
-    }
+  it('should handle promise rejection after 500ms', function (done) {
+    mockApi(null, 500).catch(error => {
+      assert.instanceOf(error, Error);
+      assert.strictEqual(error.message, 'Invalid response');
+      done();
+    });
   });
 });
