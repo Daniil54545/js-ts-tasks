@@ -6,7 +6,6 @@
  * @returns {boolean} - Returns true if it's a pangram, otherwise false.
  */
 module.exports.pangram = function (word: string | number): boolean {
-  // Convert the input to a string
   const str = word.toString().toLowerCase();
 
   if (typeof word === 'string') {
